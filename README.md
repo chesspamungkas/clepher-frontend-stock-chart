@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# Clepher Frontend Developer / Engineer - Stock Chart Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a React application that displays a stock chart using data fetched from the Alpha Vantage API. The application is built with TypeScript, React, Chart.js, and Tailwind CSS.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before running the application, make sure you have the following installed:
 
-### `npm start`
+- Node.js (v14 or higher)
+- npm (v6 or higher)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Clone the repository:
 
-### `npm test`
+```bash
+git clone https://github.com/chesspamungkas/clepher-frontend-stock-chart-app.git
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Navigate to the project directory:
 
-### `npm run build`
+```bash
+cd stock-chart-app
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Install the dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Configuration
 
-### `npm run eject`
+1. Create a `.env` file in the root directory of the project.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Add the following environment variable to the `.env` file:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+REACT_APP_API_KEY=your-alpha-vantage-api-key
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Replace `your-alpha-vantage-api-key` with your actual Alpha Vantage API key.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Running the Application
 
-## Learn More
+To start the application, run the following command:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This will start the development server, and you can access the application in your browser at `http://localhost:3000`.
+
+## REST API
+
+The application fetches stock data from the Alpha Vantage API. The API endpoint used is:
+
+https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=${process.env.REACT_APP_API_KEY}
+
+Make sure you have a valid API key from Alpha Vantage and have set it in the `.env` file.
+
+This will run the test suite using Jest and display the test results in the console.
+
+## Running ESLint
+
+To run ESLint and check for linting errors, use the following command:
+
+```bash
+npm run lint
+```
+
+This will run ESLint on the source files and display any linting errors or warnings.
+
+To automatically fix fixable linting errors, use:
+```bash
+npm run lint:fix
+```
