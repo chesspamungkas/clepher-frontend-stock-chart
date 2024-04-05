@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
 import { format } from 'date-fns';
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
     Tooltip,
     Legend,
-    ChartData,
-    ChartOptions,
-    TooltipItem,
-} from 'chart.js/auto';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+    ResponsiveContainer,
+} from 'recharts';
 
 interface StockDataResponse {
     'Meta Data': {
@@ -80,56 +66,12 @@ const StockChart: React.FC = () => {
         return <div>{error}</div>;
     }
 
-    const chartData: ChartData<'line'> = {
-        labels: stockData ? Object.keys(stockData['Time Series (Daily)']).reverse() : [],
-        datasets: [
-            {
-                label: 'Closing Price',
-                data: stockData ? Object.values(stockData['Time Series (Daily)']).map((data) => parseFloat(data['4. close'])).reverse() : [],
-                backgroundColor: 'rgba(75, 192, 192, 0.4)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-            },
-        ],
-    };
-
-    const options: ChartOptions<'line'> = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top' as const,
-            },
-            title: {
-                display: true,
-                text: `Stock Closing Price - ${stockData?.['Meta Data']['2. Symbol']}`,
-            },
-            tooltip: {
-                callbacks: {
-                    label: (context: TooltipItem<'line'>) => {
-                        const price = context.parsed.y;
-                        const date = context.label;
-                        return `Price: $${price?.toFixed(2)} | Date: ${format(new Date(date || ''), 'MMM d, yyyy')}`;
-                    },
-                },
-            },
-        },
-        scales: {
-            x: {
-                display: true,
-                title: {
-                    display: true,
-                    text: 'Date',
-                },
-            },
-            y: {
-                display: true,
-                title: {
-                    display: true,
-                    text: 'Closing Price',
-                },
-            },
-        },
-    };
+    const chartData = stockData
+        ? Object.entries(stockData['Time Series (Daily)']).map(([date, values]) => ({
+            date,
+            price: parseFloat(values['4. close']),
+        }))
+        : [];
 
     return (
         <section className="bg-white py-16">
@@ -145,8 +87,17 @@ const StockChart: React.FC = () => {
                                 Last Refreshed: {format(new Date(stockData['Meta Data']['3. Last Refreshed']), 'MMM d, yyyy')}
                             </p>
                         </div>
-                        <div className="w-full">
-                            <Line data={chartData} options={options} />
+                        <div className="w-full h-96">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={chartData}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                                </LineChart>
+                            </ResponsiveContainer>
                         </div>
                     </div>
                 ) : (
