@@ -75,3 +75,7 @@ To automatically fix fixable linting errors, use:
 ```bash
 npm run lint:fix
 ```
+
+## Demo Site
+
+https://clepher-frontend-stock-chart.netlify.app/
